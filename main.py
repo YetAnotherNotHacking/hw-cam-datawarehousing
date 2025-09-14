@@ -1,0 +1,1 @@
+# Once all states are written, another manager.py will be written and all functions will be called from the root thread in main.py. Before that this will be empty.
