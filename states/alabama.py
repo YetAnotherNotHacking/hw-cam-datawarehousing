@@ -41,7 +41,7 @@ snapshotImageFolderLocation = f"{imageFolderLocation}/{snapshotImageFolderName}"
 
 def makeDirectories(scrapeFolderLocation=scrapeFolderLocation, imageFolderLocation=imageFolderLocation, mapImageFolderLocation=mapImageFolderLocation, snapshotImageFolderLocation=snapshotImageFolderLocation):
     if not os.path.isdir(scrapeFolderLocation):
-        print(f"No folder exists for thwis scrape, so creating it at {scrapeFolderLocation}")
+        print(f"No folder exists for this scrape, so creating it at {scrapeFolderLocation}")
         # os.makedirs(path, exist_ok=True)
         os.makedirs(scrapeFolderLocation, exist_ok=True)
         os.makedirs(imageFolderLocation, exist_ok=True)
