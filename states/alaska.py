@@ -17,7 +17,7 @@ debugParse = False
 
 # State specific scraper settings
 stateName = "Alaska"
-baseCCTVFrameLocation = "https://www.az511.gov/map/Cctv/"
+baseCCTVFrameLocation = "https://511.alaska.gov/map/Cctv/"
 serviceURL = "https://511.alaska.gov/cctv?start=0&length=100&order%5Bi%5D=1&order%5Bdir%5D=asc"
 APIURL = "https://511.alaska.gov/List/GetData/Cameras?query={\"columns\":[{\"data\":null,\"name\":\"\"},{\"name\":\"sortOrder\",\"s\":true},{\"name\":\"roadway\",\"s\":true},{\"data\":3,\"name\":\"\"}],\"order\":[{\"column\":1,\"dir\":\"asc\"},{\"column\":2,\"dir\":\"asc\"}],\"start\":0,\"length\":100,\"search\":{\"value\":\"\"}}&lang=en-US"
 imageFolderName = "img"
@@ -40,9 +40,52 @@ apiSaveLocation = f"{scrapeFolderLocation}/{apidataname}"
 imageFolderLocation = f"{scrapeFolderLocation}/{imageFolderName}"
 snapshotImageFolderLocation = f"{imageFolderLocation}/{snapshotImageFolderName}"
 
-def downloadApiDataToFile(APIURL, apiSaveLocation):
-    print(f"Downloading \"{APIURL}\" to {apiSaveLocation}")
-    urllib.request.urlretrieve(APIURL, apiSaveLocation)
+# make this dynamic in the future
+temp_folder = "data/"
+
+# Gen the variables that are dynamic
+if stableTime == True:
+    timeSinceEpoch = 1
+elif stableTime == False:
+    timeSinceEpoch = round(time.time())
+
+# Generate the save paths
+scrapeFolderLocation = f"{temp_folder}/{stateName}/{timeSinceEpoch}"
+scrapeFileLocation = f"{temp_folder}/{stateName}/{timeSinceEpoch}/{apidataname}"
+apiSaveLocation = f"{scrapeFolderLocation}/{apidataname}"
+imageFolderLocation = f"{scrapeFolderLocation}/{imageFolderName}"
+snapshotImageFolderLocation = f"{imageFolderLocation}/{snapshotImageFolderName}"
+
+# def downloadApiDataToFile(APIURL, apiSaveLocation):
+#     print(f"Downloading \"{APIURL}\" to {apiSaveLocation}")
+#     urllib.request.urlretrieve(APIURL, apiSaveLocation)
+
+def stepFetchAPI(api_url, step=100):
+    parsed = urllib.parse.urlparse(api_url)
+    qs = urllib.parse.parse_qs(parsed.query)
+    base = api_url.split("?")[0]
+    query_str = urllib.parse.unquote(qs['query'][0])
+    query = json.loads(query_str)
+    all_rows = []
+    start = 0
+    while True:
+        query['start'] = start
+        new_q = urllib.parse.quote(json.dumps(query))
+        url = f"{base}?query={new_q}&lang=en-US"
+        print(f"Fetching offset {start}")
+        with urllib.request.urlopen(url) as r:
+            page = json.load(r)
+        rows = page.get('data', [])
+        if not rows: break
+        all_rows.extend(rows)
+        if len(rows) < step: break
+        start += step
+    return {"data": all_rows}
+
+def downloadApiDataToFile(api_url, out_path):
+    combined = stepFetchAPI(api_url)
+    with open(out_path, "w") as f:
+        json.dump(combined, f)
 
 def makeDirectories(scrapeFolderLocation=scrapeFolderLocation, imageFolderLocation=imageFolderLocation):
     if not os.path.isdir(scrapeFolderLocation):
@@ -124,14 +167,17 @@ def getAllCameraIDs(csvpath):
             ids.append(int(row['id']))
     return ids
 
-def downloadImages(ids, outputPath):
-    # https://www.az511.gov/map/Cctv/769?t=1758330298
-    iteration = 1
-    for id in ids:
-        iteration += 1
-        print(f"Downloading image {str(iteration)}/{str(len(ids))} from {f"{baseCCTVFrameLocation}/{str(id)}"}")
-        urllib.request.urlretrieve(f"{baseCCTVFrameLocation}{str(id)}", f"{outputPath}/{str(id)}.jpeg")
+def downloadSingleImage(id, outputPath):
+    url = f"{baseCCTVFrameLocation}{id}"
+    out = os.path.join(outputPath, f"{id}.jpeg")
+    urllib.request.urlretrieve(url, out)
+    return url
 
+def downloadImages(ids, outputPath, max_workers=20):
+    total = len(ids)
+    with ThreadPoolExecutor(max_workers=max_workers) as ex:
+        for i, url in enumerate(ex.map(lambda x: downloadSingleImage(x, outputPath), ids), start=1):
+            print(f"Downloading image {i}/{total} from {url}")
 
 def doScrape():
     makeDirectories(scrapeFolderLocation, imageFolderLocation)
@@ -139,7 +185,6 @@ def doScrape():
     convertedCSVPath = convertToCSV(apiSaveLocation)
     ids = getAllCameraIDs(convertedCSVPath)
     downloadImages(ids, snapshotImageFolderLocation)
-
 
 if __name__ == "__main__":
     doScrape()
