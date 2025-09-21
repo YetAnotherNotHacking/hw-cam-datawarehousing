@@ -19,8 +19,7 @@ stateName = "Arkansas"
 serviceURL = "https://www.idrivearkansas.com/" 
 APIURL = "https://layers.idrivearkansas.com/cameras.geojson"
 imageFolderName = "img"
-mapImageFolderName = "map"
-snapshotImageFolderName = "snaps"
+snapshotImageFolderName = "streams"
 apidataname = "apidata.json"
 
 # this needs to be dynamic in th efuture, most likely it would be to a webroot of some sort.
