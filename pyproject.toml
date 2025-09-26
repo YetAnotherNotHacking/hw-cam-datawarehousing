@@ -1,6 +1,7 @@
 [build-system]
-requires = ['ast', 'concurrent', 'csv', 'importlib', 'json', 'math', 'os', 'pathlib', 'pkgutil', 're', 'requests', 'states', 'subprocess', 'sys', 'threading', 'time', 'urllib']
-build-backend = "setuptools.build_meta"
+requires = [
+    "requests"
+]build-backend = "setuptools.build_meta"
 
 [project]
 name = "silverflaghwdata"
