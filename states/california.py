@@ -118,11 +118,11 @@ def downloadImageData(snapLinks, folder):
             ex.submit(downloadThread, url, f"{folder}/{i}.jpg")
             
 
-def runScrape():
+def doScrape():
     makeDirectories()
     _, csvlocs = downloadAPIChunks("csv")
     snapLinks = genListSnapURLs(csvlocs)
     downloadImageData(snapLinks, snapshotImageFolderLocation)
 
 if __name__ == "__main__":
-    runScrape()
+    doScrape()
