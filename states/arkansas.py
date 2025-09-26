@@ -107,7 +107,7 @@ def threadSwarmStreamVideos(camIDs, duration=20):
         for f in futures:
             f.result()
 
-def runScrape():
+def doScrape():
     makeDirectories()
     downloadApiDataToFile(APIURL, scrapeFileLocation)
     csv_path = parseDownloadedFiles(scrapeFileLocation)
@@ -115,4 +115,4 @@ def runScrape():
     threadSwarmStreamVideos(camIDs, 10)
 
 if __name__ == "__main__":
-    runScrape()
+    doScrape()
