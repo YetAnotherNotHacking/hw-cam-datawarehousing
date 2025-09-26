@@ -15,4 +15,7 @@ jobs:
           python-version: '3.x'
       - run: pip install build twine
       - run: python -m build
-      - run: twine upload dist/* -u __token__ -p ${{ secrets.PYPI_API_KEY }}
+      - name: Upload to PyPI
+        env:
+          PYPI_API_TOKEN: ${{ secrets.PYPI_API_KEY }}
+        run: twine upload dist/* -u __token__ -p "$PYPI_API_TOKEN"
