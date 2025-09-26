@@ -103,7 +103,7 @@ def downloadImages(csvPath):
         for i, url in enumerate(snapLinks, 1):
             ex.submit(downloadThread, url, f"{snapshotImageFolderLocation}/{i}.jpg")
 
-def runScrape():
+def doScrape():
     makeDirectories()
     downloadApiDataToFile(APIURL, apiSaveLocation)
     csvPath = parseDownloadedFiles()
@@ -111,4 +111,4 @@ def runScrape():
     downloadImages(csvPath)
 
 if __name__ == "__main__":
-    runScrape()
+    doScrape()
