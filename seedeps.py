@@ -1,6 +1,13 @@
 import ast
 import pathlib
 
+
+# ignore standard libs
+IGNORE = {
+    "ast", "pathlib", "sys", "os", "re", "math", "time", "csv",
+    "importlib", "threading", "subprocess", "json", "concurrent", "urllib", "pkgutil"
+}
+
 def find_imports(path="."):
     path = pathlib.Path(path)
     imports = set()
@@ -14,10 +21,14 @@ def find_imports(path="."):
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
                 for n in node.names:
-                    imports.add(n.name.split(".")[0])
+                    name = n.name.split(".")[0]
+                    if name not in IGNORE:
+                        imports.add(name)
             elif isinstance(node, ast.ImportFrom):
                 if node.module:
-                    imports.add(node.module.split(".")[0])
+                    name = node.module.split(".")[0]
+                    if name not in IGNORE:
+                        imports.add(name)
     return sorted(imports)
 
 
