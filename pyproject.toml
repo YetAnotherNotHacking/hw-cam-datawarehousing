@@ -1,7 +1,8 @@
 [build-system]
 requires = [
     "requests"
-]build-backend = "setuptools.build_meta"
+]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "silverflaghwdata"
