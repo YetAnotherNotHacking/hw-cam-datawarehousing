@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "silverflaghwdata"
-version = "0.1.1"
+version = "0.1.0"
 description = "Scrapers for all of the DoT websites."
 authors = [{ name="SilverFlag", email="contact@silverflag.net"}]
 dependencies = []
