@@ -14,4 +14,4 @@ authors = [{ name="SilverFlag", email="contact@silverflag.net"}]
 dependencies = []
 
 [project.scripts]
-silverflag-dot-scraper = "main:main"
+silverflag-dot-scraper = "silverflaghwdata.main:main"
