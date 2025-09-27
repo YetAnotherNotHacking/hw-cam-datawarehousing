@@ -1,6 +1,7 @@
 [build-system]
 requires = [
     "requests",
+    "ffmpeg-python",
     "setuptools>=65.0",
     "wheel"
 ]
