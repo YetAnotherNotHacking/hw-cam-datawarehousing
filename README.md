@@ -2,7 +2,7 @@
 Mass data colleciton of highway cameras.
 
 ## Video Demo
-http://silverflag.net/sfdatawaredemo.mkv
+http://silverflag.net/sfdatawaredemo.mp4
 
 ## Installation
 There is a package uploaded to PyPi for this program. Install it with:
