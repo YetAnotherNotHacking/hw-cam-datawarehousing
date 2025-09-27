@@ -1,5 +1,5 @@
 import sys
-from states import stateScrapers, run_all
+from silverflaghwdata.states import stateScrapers, run_all
 
 def main():
     if len(sys.argv) > 1:
