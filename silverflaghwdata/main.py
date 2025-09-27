@@ -1,7 +1,7 @@
 import sys
 from states import stateScrapers, run_all
 
-def main()
+def main():
     if len(sys.argv) > 1:
         state = sys.argv[1].lower()
         if state in stateScrapers:
