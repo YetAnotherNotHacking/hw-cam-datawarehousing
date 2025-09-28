@@ -117,7 +117,6 @@ def makeDirectories(scrapeFolderLocation=scrapeFolderLocation, imageFolderLocati
         if not os.path.isdir(snapshotImageFolderLocation):
             os.makedirs(snapshotImageFolderLocation, exist_ok=True)
 
-
 def convertToCSV(path):
     with open(path, "r") as f:
         rawJSONData = json.load(f)
