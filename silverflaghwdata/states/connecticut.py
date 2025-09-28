@@ -1,5 +1,5 @@
-# Arizona
-# Like the tea?
+# Connecticut
+# I really thought I spelled this wrong lol, conneCticut is really the right spelling? silent c ig.
 
 #imports
 import time
