@@ -18,13 +18,21 @@ stableTime = False
 debugParse = False
 
 # State specific scraper settings
-stateName = "Indiana" 
-baseCCTVFrameLocation = "https://public.carsprogram.org/cameras/IN/"
+stateName = "Indiana"
+
+# Base URLs
 serviceURL = "https://511in.org/list/cameras"
-APIURL = "https://511in.org//List/GetData/Cameras?query={\"columns\":[{\"data\":null,\"name\":\"\"},{\"name\":\"sortOrder\",\"s\":true},{\"name\":\"roadway\",\"s\":true},{\"data\":3,\"name\":\"\"}],\"order\":[{\"column\":1,\"dir\":\"asc\"},{\"column\":2,\"dir\":\"asc\"}],\"start\":0,\"length\":100,\"search\":{\"value\":\"\"}}&lang=en-US"
+serviceDomain = "511in.org"
+apiEndpoint = "https://511in.org/api/graphql"
+baseCCTVFrameLocation = "https://public.carsprogram.org/cameras/IN/"
+apiURL = "https://511in.org//List/GetData/Cameras?query={\"columns\":[{\"data\":null,\"name\":\"\"},{\"name\":\"sortOrder\",\"s\":true},{\"name\":\"roadway\",\"s\":true},{\"data\":3,\"name\":\"\"}],\"order\":[{\"column\":1,\"dir\":\"asc\"},{\"column\":2,\"dir\":\"asc\"}],\"start\":0,\"length\":100,\"search\":{\"value\":\"\"}}&lang=en-US"
+
+
+# basic naming (DO NOT CHANGE THIS FOR ONE SPECIFIC STATE, IF YOU CHANGE THEM CHANGE THEM ALL)
 imageFolderName = "img"
 snapshotImageFolderName = "snaps"
 apidataname = "apidata.json"
+temp_folder = "data/"
 
 # make this dynamic in the future
 temp_folder = "data/"
@@ -46,14 +54,48 @@ snapshotImageFolderLocation = f"{imageFolderLocation}/{snapshotImageFolderName}"
 #     print(f"Downloading \"{APIURL}\" to {apiSaveLocation}")
 #     urllib.request.urlretrieve(APIURL, apiSaveLocation)
 
-def stepFetchAPI(api_url=APIURL, scrapeFileLocation=scrapeFileLocation, step=100):
-    url = "https://511in.org/api/graphql"
+# dynamic rapid configs
+GRAPHQL_QUERY = """query ($input: ListArgs!) {
+    listCameraViewsQuery(input: $input) {
+        cameraViews {
+            category icon
+            lastUpdated { timestamp timezone }
+            title uri url
+            sources { type src }
+            parentCollection {
+                title uri icon color
+                location { routeDesignator }
+                lastUpdated { timestamp timezone }
+            }
+        }
+        totalRecords
+        error { message type }
+    }
+}"""
+GRAPHQL_VARIABLES = {
+    "west": -180, "south": -85, "east": 180, "north": 85,
+    "sortDirection": "DESC", "sortType": "ROADWAY",
+    "freeSearchTerm": "", "classificationsOrSlugs": [],
+    "recordLimit": 150, "recordOffset": 0
+}
+
+FIELD_MAP = {
+    "id": lambda r: r.get("uri", "").split("/")[1] if r.get("uri") else "",
+    "title": lambda r: r.get("title", ""),
+    "url": lambda r: r.get("url", ""),
+    "source": lambda r: r["sources"][0]["src"] if r.get("sources") else "",
+    "roadway": lambda r: r.get("parentCollection", {}).get("location", {}).get("routeDesignator", ""),
+    "lastUpdated": lambda r: r.get("lastUpdated", {}).get("timestamp", ""),
+}
+
+def stepFetchAPI(api_url=apiURL, scrapeFileLocation=scrapeFileLocation, step=100):
+    url = apiEndpoint
     headers = {
         "User-Agent": "Mozilla/5.0",
         "Accept": "*/*",
         "Content-Type": "application/json",
-        "Origin": "https://511in.org",
-        "Referer": "https://511in.org/",
+        "Origin": f"https://{serviceDomain}",
+        "Referer": f"https://{serviceDomain}",
         "language": "en",
     }
     query = {
