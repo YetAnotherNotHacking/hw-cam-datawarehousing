@@ -1,5 +1,5 @@
-# Michigan
-# Mish again?
+# Minnesota
+# tiny soda
 
 #imports
 import time
