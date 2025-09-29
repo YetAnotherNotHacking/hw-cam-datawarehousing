@@ -18,7 +18,7 @@ stableTime = False
 debugParse = False
 
 # State specific scraper settings
-stateName = "Iowa"
+stateName = "Minnesota"
 
 # Base URLs
 serviceURL = "https://511mn.org/list/cameras"
