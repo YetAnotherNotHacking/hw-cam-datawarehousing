@@ -23,3 +23,7 @@ All data is outputted to a `data/` directory where you run the command.
 
 ## Data sources
 State highway data sources: https://silverflag.net/resources/publicdata/dotcctv.html
+
+## Siege info
+This program is being made along with the HackClub Siege hackathon. Below is information about it.
+Siege 1: Coins are the name for the downloaded packets that each state is generating after their scrapes. All code that processes this will reflect this.
