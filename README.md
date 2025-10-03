@@ -11,7 +11,7 @@ pip install silverflaghwdata
 ```
 
 ## Usage
-The python package installs the commands `sfd-server` and `sfd-client` to your machine. These are how you interface with this program.
+The python package installs the commands `sfd-server`, `sfd-clientcfg`, `sfd-client` to your machine. These are how you interface with this program.
 
 The model is that you have clients submitting scraped packs to the server to spread out the load of the scraping, and allowing for the server to be run a nas and have higher performance dedicated computers running the scrapers.
 
