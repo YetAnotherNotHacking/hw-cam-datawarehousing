@@ -28,7 +28,7 @@ To run the server, you are going to need to do the following:
     ```
 3. Start the server. The servers takes in `--uploaddir` as a location to deposit uploaded artifacts. It takes in `--cred-file-location` to use for credentials, this is creds.csv
     ```
-    sfd-server run run --uploaddir ups/ --credfilelocation creds.csv
+    sfd-server run --uploaddir ups/ --credfilelocation creds.csv
     ```
 
 ### Client
