@@ -6,7 +6,7 @@ import os
 import sys
 import secrets
 import pathlib
-from server import configureServer, doServer
+from silverflaghwdata.server import configureServer, doServer
 
 def gen_creds_file(path):
     if os.path.exists(path):
