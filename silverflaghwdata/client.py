@@ -13,7 +13,7 @@ CONFIG_FILE = "client_config.json"
 
 def load_config():
     if not os.path.exists(CONFIG_FILE):
-        print("Missing client_config.json, run clntmng.py to configure.")
+        print("Missing client_config.json, run sfd-client --set ... (see docs) to configure.")
         sys.exit(1)
     with open(CONFIG_FILE) as f:
         return json.load(f)
