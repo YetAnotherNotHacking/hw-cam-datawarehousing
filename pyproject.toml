@@ -16,5 +16,6 @@ authors = [{ name="SilverFlag", email="contact@silverflag.net"}]
 dependencies = []
 
 [project.scripts]
-sfd-client = "silverflaghwdata.clientmng:main"
+sfd-client = "silverflaghwdata.client:main"
+sfd-clientcfg = "silverflaghwdata.clientmng:main"
 sfd-server = "silverflaghwdata.srvmng:main"
