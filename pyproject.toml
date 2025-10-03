@@ -3,7 +3,8 @@ requires = [
     "requests",
     "ffmpeg-python",
     "setuptools>=65.0",
-    "wheel"
+    "wheel",
+    "flask"
 ]
 build-backend = "setuptools.build_meta"
 
