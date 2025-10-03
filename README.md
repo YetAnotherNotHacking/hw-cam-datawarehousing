@@ -35,7 +35,7 @@ To run the server, you are going to need to do the following:
 To run a client, you must do the following
 1. Generate a config with your API token (from adding the user) and the server's internet location.
     ```
-    sfd-client set --server https://ilove.penguins:12345 --apikey ath15f15nT041r34134P1dk3y0u4fu6k1ng1dum34553a629fbd42cf80513caa3e09
+    sfd-client-config set --server https://ilove.penguins:12345 --apikey ath15f15nT041r34134P1dk3y0u4fu6k1ng1dum34553a629fbd42cf80513caa3e09
     ```
 2. Run the client and submit the data to the server
     ```
