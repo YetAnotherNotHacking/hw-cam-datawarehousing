@@ -16,4 +16,5 @@ authors = [{ name="SilverFlag", email="contact@silverflag.net"}]
 dependencies = []
 
 [project.scripts]
-silverflag-dot-scraper = "silverflaghwdata.main:main"
+sfd-client = "silverflaghwdata.clientmng:main"
+sfd-server = "silverflaghwdata.srvmng:main"
