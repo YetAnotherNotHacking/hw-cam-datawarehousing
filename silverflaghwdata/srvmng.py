@@ -1,12 +1,20 @@
 # server manager, manage settings and run server
 
 import argparse
-import csv
+import csv # api key
 import os
 import sys
+import json # trust
 import secrets
 import pathlib
 from silverflaghwdata.server import configureServer, doServer
+
+def gen_trust_file(reset=False, path=None):
+    data = {} if reset else ({} if not os.path.exists(path) else None)
+    if data is not None:
+        with open(path, "w") as f:
+            json.dump(data, f, indent=2)
+            print(f"Generated new trust file at {path}")
 
 def gen_creds_file(path):
     if os.path.exists(path):
@@ -61,9 +69,16 @@ def main():
     run.add_argument("--port", type=int, default="9443")
     run.add_argument("--uploaddir", required=True)
     run.add_argument("--credfilelocation", required=True)
+    run.add_argument("--trustfilelocation", required=True)
 
-    genc = sub.add_parser("gen-creds", help="Generate new empty creds file")
-    genc.add_argument("path", help="Path of the cred file ot generate")
+    genc = sub.add_parser("gen-trust", help="Generate new empty client trust file")
+    genc.add_argument("path", help="Path of the trust file to generate")
+    
+    gent = sub.add_parser("reset-trust", help="Regenerate a trust file to it's default")
+    gent.add_argument("path", help="Path of the trust file to regenerate")
+
+    rstt = sub.add_parser("gen-creds", help="Generate new empty creds file")
+    rstt.add_argument("path", help="Path of the cred file ot generate")
 
     addc = sub.add_parser("add", help="Add new credential")
     addc.add_argument("path", help="Path of the cred file to edit")
@@ -78,6 +93,10 @@ def main():
 
     if args.cmd == "gen-creds":
         gen_creds_file(args.path)
+    elif args.cmd == "gen-trust":
+        gen_trust_file(reset=False, path=args.path)
+    elif args.cmd == "reset-trust": # TODO: verification
+        gen_trust_file(reset=True, path=args.path)
     elif args.cmd == "add":
         add_cred(args.path, args.key, args.user)
     elif args.cmd == "remove":
@@ -85,7 +104,7 @@ def main():
     elif args.cmd == "run":
         updir = pathlib.Path(args.uploaddir)
         updir.mkdir(parents=True, exist_ok=True)
-        configureServer(updir, args.credfilelocation, args.host, args.port)
+        configureServer(updir, args.credfilelocation, args.trustfilelocation, args.host, args.port)
         doServer(args.uploaddir, args.host, args.port)
     else:
         print("Correct your usage.")
