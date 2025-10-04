@@ -32,7 +32,7 @@ def load_trust_data():
         raise FileNotFoundError("No trust file found, did you forget to run sfd-server gen-trust (path)?")
 
 def save_trust_data(stats):
-    with open(UPLOAD_TRUST) as f:
+    with open(UPLOAD_TRUST, "w") as f:
         json.dump(stats, f, indent=2)
 
 def configureServer(uploadDir, credFileLocation, trustFileLocation, host, port):
