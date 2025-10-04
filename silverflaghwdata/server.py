@@ -31,7 +31,7 @@ def load_trust_data():
     else:
         raise FileNotFoundError("No trust file found, did you forget to run sfd-server gen-trust (path)?")
 
-def save_trust_data(trust):
+def save_trust_data(stats):
     with open(UPLOAD_TRUST) as f:
         json.dump(stats, f, indent=2)
 
