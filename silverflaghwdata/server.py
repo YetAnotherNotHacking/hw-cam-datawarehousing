@@ -11,6 +11,7 @@ API_KEYS = {}
 UPLOAD_DIR = None
 INDEX_FILE = None
 UPLOAD_INDEX = {}
+UPLOAD_TRUST = {}
 
 def save_index():
     with open(INDEX_FILE, "w") as f:
@@ -23,12 +24,25 @@ def load_index():
     else:
         UPLOAD_INDEX = {}
 
-def configureServer(uploadDir, credFileLocation, host, port):
-    global API_KEYS, UPLOAD_DIR, INDEX_FILE
+def load_trust_data():
+    if os.path.exists(UPLOAD_TRUST):
+        with open(UPLOAD_TRUST, "r") as f:
+            return json.load(f)
+    else:
+        raise FileNotFoundError("No trust file found, did you forget to run sfd-server gen-trust (path)?")
+
+def save_trust_data(trust):
+    with open(UPLOAD_TRUST) as f:
+        json.dump(stats, f, indent=2)
+
+def configureServer(uploadDir, credFileLocation, trustFileLocation, host, port):
+    global API_KEYS, UPLOAD_DIR, INDEX_FILE, UPLOAD_TRUST
     if not uploadDir:
         raise ValueError("--uploaddir is required")
     if not credFileLocation:
         raise ValueError("--credfilelocation is required")
+    if not trustFileLocation:
+        raise ValueError("--trustfilelocation is required")
 
     if not host:
         host = "0.0.0.0"
@@ -40,6 +54,9 @@ def configureServer(uploadDir, credFileLocation, host, port):
 
     INDEX_FILE = os.path.join(UPLOAD_DIR, "index.json")
     load_index()
+
+    UPLOAD_TRUST = str(trustFileLocation)
+    load_trust_data()
 
     print(f"Saving uploads to {UPLOAD_DIR}")
     API_KEYS = {}
@@ -67,10 +84,19 @@ def uploadpack():
         if not os.path.exists(fullpath):
             break
 
+    # add entry to index for d/ata/list operation
     f.save(fullpath)
     ts = int(os.path.getmtime(fullpath))
     UPLOAD_INDEX[randname] = {"timestamp": ts}
     save_index()
+
+    # add entry to trust index
+    stats = load_trust_data()
+    user_id = [k for k, v in API_KEYS.items() if v == api_key][0]
+    stats.setdefault(user_id, {"uploads": [], "upload_count": 0})
+    stats[user_id]["uploads"].append({"zip_id": randname, "timestamp": ts})
+    stats[user_id]["upload_count"] += 1
+    save_trust_data(stats)
 
     return jsonify({"status":"ok", "zip_id":randname, "timestamp":ts})
 
