@@ -1,0 +1,3 @@
+import silverflaghwdata.server
+print(silverflaghwdata.server.configureServer.__code__.co_varnames)
+print(silverflaghwdata.server.configureServer.__defaults__)
