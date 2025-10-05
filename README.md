@@ -30,6 +30,10 @@ To run the server, you are going to need to do the following:
     ```
     sfd-server run --uploaddir ups/ --credfilelocation creds.csv
     ```
+You are also able to see client contributions using the `sfd-server` command.
+```
+sfd-server leaderboard trust-file.json LENGTH
+```
 
 ### Client
 To run a client, you must do the following
@@ -52,5 +56,5 @@ State highway data sources: https://silverflag.net/resources/publicdata/dotcctv.
 
 ## Siege info
 This program is being made along with the HackClub Siege hackathon. Below is information about it.
-Siege 1: Coins are the name for the downloaded packets that each state is generating after their scrapes. All code that processes this will reflect this.
-Coins are downloaded by scrapers and then submitted to a server for storage. Coins track scraper trust/reliability.
+
+Siege Week 1: The program follows the coin theme, the reliability and contributions of the scraping clients are tracked and visible through the leaderboard command. According to organizers, a loose interpretation like this is suffecient. ([source](https://hackclub.slack.com/archives/C08SKC6P85V/p1759184234278029?thread_ts=1759183466.135219&cid=C08SKC6P85V))
