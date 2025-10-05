@@ -60,6 +60,20 @@ def remove_cred(path, user):
         writer.writerows(rows_new)
     print(f"Removed the user {user}")
 
+def leaderboard(filepath, top_n=10):
+    top_n = int(top_n)
+    with open(filepath, 'r') as f:
+        data = json.load(f)
+    users = []
+    for user, info in data.items():
+        coins = info.get("upload_count", 0)
+        users.append((user, coins))
+    users.sort(key=lambda x: x[1], reverse=True)
+    print(f"{'Rank':<5} {'User':<15} {'Coins':<10}")
+    print("-" * 32)
+    for i, (user, coins) in enumerate(users[:top_n], 1):
+        print(f"{i:<5} {user:<15} {coins:<10}")
+
 def main():
     parser = argparse.ArgumentParser(prog="sfdata-srvmng", description="SilverFlag Data Server Manager")
     sub = parser.add_subparsers(dest="cmd")
@@ -89,6 +103,10 @@ def main():
     remc.add_argument("path", help="Path of the cred file to edit")
     remc.add_argument("user", help="User/client id")
 
+    ldrb = sub.add_parser("leaderboard", help="Show the coins amount and trustability of the clients")
+    ldrb.add_argument("path", help="Path of your trust file")
+    ldrb.add_argument("length", help="How many users to show in the leaderboard.")
+
     args = parser.parse_args()
 
     if args.cmd == "gen-creds":
@@ -101,6 +119,8 @@ def main():
         add_cred(args.path, args.key, args.user)
     elif args.cmd == "remove":
         remove_cred(args.path, args.user)
+    elif args.cmd == "leaderboard":
+        leaderboard(args.path, args.length)
     elif args.cmd == "run":
         updir = pathlib.Path(args.uploaddir)
         updir.mkdir(parents=True, exist_ok=True)
