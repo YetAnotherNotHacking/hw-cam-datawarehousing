@@ -35,7 +35,7 @@ def save_trust_data(stats):
     with open(UPLOAD_TRUST, "w") as f:
         json.dump(stats, f, indent=2)
 
-def configureServer(uploadDir, credFileLocation, trustFileLocation, host, port):
+def configureServer(uploadDir, credFileLocation, trustFileLocation, indexFile, host, port):
     global API_KEYS, UPLOAD_DIR, INDEX_FILE, UPLOAD_TRUST
     if not uploadDir:
         raise ValueError("--uploaddir is required")
@@ -52,7 +52,7 @@ def configureServer(uploadDir, credFileLocation, trustFileLocation, host, port):
     UPLOAD_DIR = str(uploadDir)
     os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-    INDEX_FILE = os.path.join(UPLOAD_DIR, "index.json")
+    INDEX_FILE = str(indexFile)
     load_index()
 
     UPLOAD_TRUST = str(trustFileLocation)
