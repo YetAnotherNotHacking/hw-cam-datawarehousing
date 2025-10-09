@@ -84,6 +84,7 @@ def main():
     run.add_argument("--uploaddir", required=True)
     run.add_argument("--credfilelocation", required=True)
     run.add_argument("--trustfilelocation", required=True)
+    run.add_argument("--indexfile", required=True)
 
     genc = sub.add_parser("gen-trust", help="Generate new empty client trust file")
     genc.add_argument("path", help="Path of the trust file to generate")
@@ -124,7 +125,7 @@ def main():
     elif args.cmd == "run":
         updir = pathlib.Path(args.uploaddir)
         updir.mkdir(parents=True, exist_ok=True)
-        configureServer(updir, args.credfilelocation, args.trustfilelocation, args.host, args.port)
+        configureServer(updir, args.credfilelocation, args.trustfilelocation, args.host, args.port. args.indexfile)
         doServer(args.uploaddir, args.host, args.port)
     else:
         print("Correct your usage.")
