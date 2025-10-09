@@ -113,9 +113,14 @@ def list_data():
 
 @app.route("/data/get/<zipname>", methods=["GET"])
 def get_zip(zipname):
+    from difflib import get_close_matches
     if zipname not in UPLOAD_INDEX:
-        abort(404, "Not found")
+        match = get_close_matches(zipname, UPLOAD_INDEX, n=1)
+        if not match:
+            abort(404, "Not found")
+        zipname = match[0]
     return send_from_directory(UPLOAD_DIR, zipname, as_attachment=True)
+
 
 
 @app.route("/", methods=["GET"])
