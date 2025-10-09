@@ -125,7 +125,7 @@ def main():
     elif args.cmd == "run":
         updir = pathlib.Path(args.uploaddir)
         updir.mkdir(parents=True, exist_ok=True)
-        configureServer(updir, args.credfilelocation, args.trustfilelocation, args.host, args.port. args.indexfile)
+        configureServer(updir, args.credfilelocation, args.trustfilelocation, args.indexfile, args.host, args.port)
         doServer(args.uploaddir, args.host, args.port)
     else:
         print("Correct your usage.")
