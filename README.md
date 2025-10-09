@@ -57,4 +57,7 @@ State highway data sources: https://silverflag.net/resources/publicdata/dotcctv.
 ## Siege info
 This program is being made along with the HackClub Siege hackathon. Below is information about it.
 
+Siege prep 3: [video](https://silverflag.net/2025-10-08%2023-28-29.mkv)
+Im being told this needs to be here, but this is only a video of the most recent version made for siege week 1. The stuff made this week (scrapers) are shown functioning as intended.
+
 Siege Week 1: The program follows the coin theme, the reliability and contributions of the scraping clients are tracked and visible through the leaderboard command. According to organizers, a loose interpretation like this is suffecient. ([source](https://hackclub.slack.com/archives/C08SKC6P85V/p1759184234278029?thread_ts=1759183466.135219&cid=C08SKC6P85V))
