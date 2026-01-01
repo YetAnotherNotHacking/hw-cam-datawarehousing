@@ -1,11 +1,6 @@
 # Missouri
 # what the hell even happens in this state idfk anything about it :sob:
 
-link = "https://traveler.modot.org/timconfig/feed/desktop/StreamingCams2.json"
-
-# Arkansas
-# Assault Rifle Kansas?
-
 # imports
 import time
 import subprocess
