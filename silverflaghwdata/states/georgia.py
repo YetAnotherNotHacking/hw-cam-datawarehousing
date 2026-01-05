@@ -1,9 +1,6 @@
 # Georgia
 # mid ahh state tbh
 
-
-
-
 #imports
 import time
 import urllib.request

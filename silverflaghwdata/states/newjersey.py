@@ -17,7 +17,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from hashlib import sha1
 
-# special imports for this strange encrypted token handling logic the site has
+# special imports for this strange encrypted token handling logic the site has (annowing af)
 import base64
 import ssl
 

@@ -1,9 +1,5 @@
-
-
 # Iowa
 # Iowa-es aaplee?
-# Indiana
-# thor and doctor joooooooooones - howard/rajesh/bert
 
 #imports
 import time

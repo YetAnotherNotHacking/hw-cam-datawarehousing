@@ -1,3 +1,6 @@
+# Deleware
+# is dell aware?
+
 import time
 import urllib.request
 import os
